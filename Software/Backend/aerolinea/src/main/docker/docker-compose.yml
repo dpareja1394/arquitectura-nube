@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  aerolineadocker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - aerolineausbdb
+    environment:
+      RDS_HOSTNAME: aerolineausbdb
+      RDS_PORT: 5432
+    networks:
+      - aerolineausb-cloud-network
+
+  aerolineausbdb:
+    image: postgres:12.6
+    volumes:
+      - aerolineausbdb:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: aerolineausbuser
+      POSTGRES_PASSWORD: aerolineausbuser
+      POSTGRES_DB: aerolineausb
+    networks:
+      - aerolineausb-cloud-network
+
+# Volumes
+volumes:
+  aerolineausbdb:
+    driver: local
+
+networks:
+  aerolineausb-cloud-network:
