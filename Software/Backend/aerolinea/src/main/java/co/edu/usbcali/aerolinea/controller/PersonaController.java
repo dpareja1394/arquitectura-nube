@@ -45,7 +45,7 @@ public class PersonaController {
         }
     }
 
-    @PostMapping("/editarPersona")
+    @PutMapping("/editarPersona")
     public ResponseEntity<PersonaDTO> editarPersona(@RequestBody PersonaDTO personaDTO) {
         try {
             return new ResponseEntity<>(personaService.editarPersona(personaDTO), HttpStatus.OK);
